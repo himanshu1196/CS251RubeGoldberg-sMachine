@@ -81,23 +81,7 @@ namespace cs251
       bd21.position.Set(-22.0f, 25.0f);
       b2Body* b1 = m_world->CreateBody(&bd21);
       b1->CreateFixture(&shape, 0.0f);
-      /*
-      shape.SetAsBox(5.0f, 0.25f);
-  
-      b2BodyDef bd21;
-      bd21.position.Set(-31.0f, 30.0f);
-      b2Body* b1 = m_world->CreateBody(&bd);
-      b1->CreateFixture(&shape, 0.0f);
-    */
-/*
-      b2PolygonShape shape;
-      shape.SetAsBox(5.0f, 0.25f);
-  
-      b2BodyDef bd2;
-      bd2.position.Set(-30.0f, 20.0f);
-      b2Body* b1 = m_world->CreateBody(&bd2);
-      b1->CreateFixture(&shape, 0.0f);
-  */  
+      
 
 
 	//    redirecting edges for the ball on the top
@@ -348,23 +332,6 @@ namespace cs251
 	   //mjd.motorSpeed=1.0f;
 	   //mjd.enableMotor=true;
 	    m_world->CreateJoint(&mjd);
-    /*
-	   b2RevoluteJointDef rjd;
-	   rjd.Initialize(b1,body, b2Vec2(3.f,27.f));
-	   rjd.maxMotorTorque= 10000.0f;
-	   rjd.motorSpeed=3.f*b2_pi;
-	   rjd.enableMotor=false;
-     m_world->CreateJoint(&rjd);*/ 
-	/*
-     b2PrismaticJointDef pjd;
-	   pjd.Initialize(b1, body, b2Vec2(5.f,27.f), b2Vec2(1.,0));
-	   pjd.lowerTranslation=-3.;
-	   pjd.upperTranslation=3;
-	   pjd.maxMotorForce=1000.f;
-	   pjd.motorSpeed=10;
-	   pjd.enableLimit=true;
-	   pjd.enableMotor=true;
-	   m_world->CreateJoint(&pjd);*/
     }
 
     //The pulley system (bottom right corner)
@@ -452,24 +419,6 @@ namespace cs251
       m_world->CreateJoint(&jointDef);
     }
 
-/*///////////////////////////
-{
-      b2PolygonShape shape;
-      shape.SetAsBox(2.0f, 0.10f);
-      b2BodyDef bd;
-      bd.position.Set(-24.0f, 32.0f);
-      b2Body* ground = m_world->CreateBody(&bd);
-      ground->CreateFixture(&shape, 0.0f);
-    }
-    {
-      b2PolygonShape shape;
-      shape.SetAsBox(0.10f, 4.0f);
-      b2BodyDef bd;
-      bd.position.Set(-25.5f, 35.5f);
-      b2Body* ground = m_world->CreateBody(&bd);
-      ground->CreateFixture(&shape, 0.0f);
-    }
-    //////////////////////*/
 
 
 
@@ -639,198 +588,6 @@ namespace cs251
       box2->CreateFixture(fd3);
       }
   
-   /******************************
-   
-			b2Body* prevBody = ground;
-                        b2RevoluteJoint* m_joint1;
-		        b2PrismaticJoint* m_joint2;  
-			// Define crank.
-			{
-				b2PolygonShape shape;
-				shape.SetAsBox(0.5f, 2.0f);
-
-				b2BodyDef bd;
-				bd.type = b2_dynamicBody;
-				bd.position.Set(0.0f, 7.0f);
-				b2Body* body = m_world->CreateBody(&bd);
-				body->CreateFixture(&shape, 2.0f);
-
-				b2RevoluteJointDef rjd;
-				rjd.Initialize(prevBody, body, b2Vec2(0.0f, 5.0f));
-				rjd.motorSpeed = 1.0f * b2_pi;
-				rjd.maxMotorTorque = 10000.0f;
-				rjd.enableMotor = true;
-				m_joint1 = (b2RevoluteJoint*)m_world->CreateJoint(&rjd);
-
-				prevBody = body;
-			}
-
-			// Define follower.
-			{
-				b2PolygonShape shape;
-				shape.SetAsBox(0.5f, 4.0f);
-
-				b2BodyDef bd;
-				bd.type = b2_dynamicBody;
-				bd.position.Set(0.0f, 13.0f);
-				b2Body* body = m_world->CreateBody(&bd);
-				body->CreateFixture(&shape, 2.0f);
-
-				b2RevoluteJointDef rjd;
-				rjd.Initialize(prevBody, body, b2Vec2(0.0f, 9.0f));
-				rjd.enableMotor = false;
-				m_world->CreateJoint(&rjd);
-
-				prevBody = body;
-			}
-
-			// Define piston
-			{
-				b2PolygonShape shape;
-				shape.SetAsBox(1.5f, 1.5f);
-
-				b2BodyDef bd;
-				bd.type = b2_dynamicBody;
-				bd.fixedRotation = true;
-				bd.position.Set(0.0f, 17.0f);
-				b2Body* body = m_world->CreateBody(&bd);
-				body->CreateFixture(&shape, 2.0f);
-
-				b2RevoluteJointDef rjd;
-				rjd.Initialize(prevBody, body, b2Vec2(0.0f, 17.0f));
-				m_world->CreateJoint(&rjd);
-
-				b2PrismaticJointDef pjd;
-				pjd.Initialize(ground, body, b2Vec2(0.0f, 17.0f), b2Vec2(0.0f, 1.0f));
-
-				pjd.maxMotorForce = 1000.0f;
-				pjd.enableMotor = true;
-
-				m_joint2 = (b2PrismaticJoint*)m_world->CreateJoint(&pjd);
-			}
-
-			// Create a payload
-			{
-				b2PolygonShape shape;
-				shape.SetAsBox(1.5f, 1.5f);
-
-				b2BodyDef bd;
-				bd.type = b2_dynamicBody;
-				bd.position.Set(0.0f, 23.0f);
-				b2Body* body = m_world->CreateBody(&bd);
-				body->CreateFixture(&shape, 2.0f);
-			}
-
-*//*
-{
-			b2PolygonShape shape;
-			shape.SetAsBox(0.6f, 0.125f);
-
-			b2FixtureDef fd;
-			fd.shape = &shape;
-			fd.density = 20.0f;
-			fd.friction = 0.2f;
-
-			b2RevoluteJointDef jd;
-			jd.collideConnected = false;
-
-			const float32 y = 25.0f;
-			b2Body* prevBody = ground;
-			for (int32 i = 0; i < 30; ++i)
-			{
-				b2BodyDef bd;
-				bd.type = b2_dynamicBody;
-				bd.position.Set(0.5f + i, y);
-				b2Body* body = m_world->CreateBody(&bd);
-				body->CreateFixture(&fd);
-
-				b2Vec2 anchor(float32(i), y);
-				jd.Initialize(prevBody, body, anchor);
-				m_world->CreateJoint(&jd);
-
-				prevBody = body;
-			}
-		}
-
-	*/
-/*{enum
-	{
-		e_count = 30
-	};b2Body* m_middle;
-
-			b2PolygonShape shape;
-			shape.SetAsBox(0.5f, 0.125f);
-
-			b2FixtureDef fd;
-			fd.shape = &shape;
-			fd.density = 20.0f;
-			fd.friction = 0.2f;
-
-			b2RevoluteJointDef jd;
-
-			b2Body* prevBody = ground;
-			for (int32 i = 0; i < e_count; ++i)
-			{
-				b2BodyDef bd;
-				bd.type = b2_dynamicBody;
-				bd.position.Set(-14.5f + 1.0f * i, 5.0f);
-				b2Body* body = m_world->CreateBody(&bd);
-				body->CreateFixture(&fd);
-
-				b2Vec2 anchor(-15.0f + 1.0f * i, 5.0f);
-				jd.Initialize(prevBody, body, anchor);
-				m_world->CreateJoint(&jd);
-
-				if (i == (e_count >> 1))
-				{
-					m_middle = body;
-				}
-				prevBody = body;
-			}
-
-			b2Vec2 anchor(-15.0f + 1.0f * e_count, 5.0f);
-			jd.Initialize(prevBody, ground, anchor);
-			m_world->CreateJoint(&jd);
-		}
-
-		for (int32 i = 0; i < 2; ++i)
-		{
-			b2Vec2 vertices[3];
-			vertices[0].Set(-0.5f, 0.0f);
-			vertices[1].Set(0.5f, 0.0f);
-			vertices[2].Set(0.0f, 1.5f);
-
-			b2PolygonShape shape;
-			shape.Set(vertices, 3);
-
-			b2FixtureDef fd;
-			fd.shape = &shape;
-			fd.density = 1.0f;
-
-			b2BodyDef bd;
-			bd.type = b2_dynamicBody;
-			bd.position.Set(-8.0f + 8.0f * i, 12.0f);
-			b2Body* body = m_world->CreateBody(&bd);
-			body->CreateFixture(&fd);
-		}
-
-		for (int32 i = 0; i < 3; ++i)
-		{
-			b2CircleShape shape;
-			shape.m_radius = 0.5f;
-
-			b2FixtureDef fd;
-			fd.shape = &shape;
-			fd.density = 1.0f;
-
-			b2BodyDef bd;
-			bd.type = b2_dynamicBody;
-			bd.position.Set(-6.0f + 6.0f * i, 10.0f);
-			b2Body* body = m_world->CreateBody(&bd);
-			body->CreateFixture(&fd);
-		}
-
-*/
 }
 
 
