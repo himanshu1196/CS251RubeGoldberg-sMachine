@@ -230,26 +230,7 @@ namespace cs251
 
       m_world->CreateJoint(&jd);
     }
-      /*
-    //The train of small spheres
-    {
-      b2Body* spherebody;
-      b2CircleShape circle;
-      circle.m_radius = 0.5;
-      b2FixtureDef ballfd;
-      ballfd.shape = &circle;
-      ballfd.density = 1.0f;
-      ballfd.friction = 0.0f;
-      ballfd.restitution = 0.0f;
-      for (int i = 0; i < 10; ++i)
-      {
-    	b2BodyDef ballbd;
-    	ballbd.type = b2_dynamicBody;
-    	ballbd.position.Set(-22.2f + i*1.0, 26.6f);
-    	spherebody = m_world->CreateBody(&ballbd);
-    	spherebody->CreateFixture(&ballfd);
-      }
-    }*/
+      
     //The chain of pendulums that push the saw
     {
       b2Body* b2;
