@@ -99,13 +99,14 @@ namespace cs251
      *  -# Creates a shelf modelled as a horizontal box.
      *  -# Uses b2PolygonShape to define 'shape' of the b2Body object 'ground' which represents the horizontal shelf.
      */
+    
     {
       b2PolygonShape shape;
       shape.SetAsBox(3.1f, 0.25f);
 
       b2BodyDef bd;
       bd.position.Set(-31.0f, 38.0f);
-      b2Body* b1 = m_world->CreateBody(&bd);
+       b2Body* b1 = m_world->CreateBody(&bd);
       b1->CreateFixture(&shape, 0.0f);
     }
     //horizontal shelf
@@ -574,8 +575,9 @@ namespace cs251
       bd->type = b2_dynamicBody;
       bd->position.Set(18,5);
       bd->fixedRotation = true;
-
       //The open box
+      
+	  b2Body* box2 = m_world->CreateBody(bd);
       b2FixtureDef *fd1 = new b2FixtureDef;
       fd1->density = 10.0;
       fd1->friction = 0.5;
@@ -584,34 +586,26 @@ namespace cs251
       b2PolygonShape bs1;
       bs1.SetAsBox(2,0.2, b2Vec2(0.f,-1.9f), 0);
       fd1->shape = &bs1;
-      b2FixtureDef *fd2 = new b2FixtureDef;
-      fd2->density = 10.0;
-      fd2->friction = 0.5;
-      fd2->restitution = 0.f;
-      fd2->shape = new b2PolygonShape;
-      b2PolygonShape bs2;
-      bs2.SetAsBox(0.2,2, b2Vec2(2.0f,0.f), 0);
-      fd2->shape = &bs2;
-      b2FixtureDef *fd3 = new b2FixtureDef;
-      fd3->density = 10.0;
-      fd3->friction = 0.5;
-      fd3->restitution = 0.f;
-      fd3->shape = new b2PolygonShape;
-      b2PolygonShape bs3;
-      bs3.SetAsBox(0.2,2, b2Vec2(-2.0f,0.f), 0);
-      fd3->shape = &bs3;
-
-      b2Body* box2 = m_world->CreateBody(bd);
       box2->CreateFixture(fd1);
-      box2->CreateFixture(fd2);
-      box2->CreateFixture(fd3);
-
+      
+      bs1.SetAsBox(0.2,2, b2Vec2(2.0f,0.f), 0);
+      fd1->shape = &bs1;
+      box2->CreateFixture(fd1);
+      
+      bs1.SetAsBox(0.2,2,b2Vec2(-2.0f,0.f), 0);
+      fd1->shape = &bs1;
+	  box2->CreateFixture(fd1);
+      
+      
+      
       //The bar
       bd->position.Set(30,5);
-      fd1->density = 34.0;
+      bs1.SetAsBox(2,0.2);
+      fd1->shape = &bs1;
+	  fd1->density = 34.0;
       b2Body* box1 = m_world->CreateBody(bd);
       box1->CreateFixture(fd1);
-
+		
       // The pulley joint
       b2PulleyJointDef* myjoint = new b2PulleyJointDef();
       b2Vec2 worldAnchorOnBody1(30, 5); // Anchor point on body 1 in world axis
@@ -839,6 +833,8 @@ namespace cs251
       bd->position.Set(-3,5);
       //bd->fixedRotation = true;
 
+        
+	  b2Body* box2 = m_world->CreateBody(bd);
       b2FixtureDef *fd1 = new b2FixtureDef;
       fd1->density = 10.0;
       fd1->friction = 0.5;
@@ -847,28 +843,109 @@ namespace cs251
       b2PolygonShape bs1;
       bs1.SetAsBox(2,0.2, b2Vec2(0.f,-1.9f), 0);
       fd1->shape = &bs1;
-      b2FixtureDef *fd2 = new b2FixtureDef;
-      fd2->density = 10.0;
-      fd2->friction = 0.5;
-      fd2->restitution = 0.f;
-      fd2->shape = new b2PolygonShape;
-      b2PolygonShape bs2;
-      bs2.SetAsBox(0.2,2, b2Vec2(2.0f,0.f), 0);
-      fd2->shape = &bs2;
-      b2FixtureDef *fd3 = new b2FixtureDef;
-      fd3->density = 10.0;
-      fd3->friction = 0.5;
-      fd3->restitution = 0.f;
-      fd3->shape = new b2PolygonShape;
-      b2PolygonShape bs3;
-      bs3.SetAsBox(0.2,2, b2Vec2(-2.0f,0.f), 0);
-      fd3->shape = &bs3;
-
-      b2Body* box2 = m_world->CreateBody(bd);
       box2->CreateFixture(fd1);
-      box2->CreateFixture(fd2);
-      box2->CreateFixture(fd3);
-      }
+      
+      bs1.SetAsBox(0.2,2, b2Vec2(2.0f,0.f), 0);
+      fd1->shape = &bs1;
+      box2->CreateFixture(fd1);
+      
+      bs1.SetAsBox(0.2,2, b2Vec2(-2.0f,0.f), 0);
+      fd1->shape = &bs1;
+	  box2->CreateFixture(fd1);
+      
+      /*
+ 
+      // Platform for conveyor
+		{
+			b2BodyDef bd;
+			bd.position.Set(-5.0f, 5.0f);
+			b2Body* body = m_world->CreateBody(&bd);
+
+			b2PolygonShape shape;
+			shape.SetAsBox(10.0f, 0.5f);
+
+			b2FixtureDef fd;
+			fd.shape = &shape;
+			fd.friction = 0.8f;
+			m_platform = body->CreateFixture(&fd);
+		}
+
+		// Boxes for testing
+		for (int32 i = 0; i < 5; ++i)
+		{
+			b2BodyDef bd;
+			bd.type = b2_dynamicBody;
+			bd.position.Set(-10.0f + 2.0f * i, 7.0f);
+			b2Body* body = m_world->CreateBody(&bd);
+
+			b2PolygonShape shape;
+			shape.SetAsBox(0.5f, 0.5f);
+			body->CreateFixture(&shape, 20.0f);
+		}
+*/
+
+			
+
+			// Define crank.
+			{
+	  
+ 	  b2BodyDef bd;
+	  
+	  b2Body* b1;		
+	  bd.position.Set(-44.0f, 44.0f);
+	  b1 = m_world->CreateBody(&bd);
+	  b2Body* prevBody1 = b1;
+	  bd.position.Set(44.0f, 44.0f);
+	  b1 = m_world->CreateBody(&bd);
+	  b2Body* prevBody2 = b1;
+	  
+	  bd.type = b2_dynamicBody;
+	  bd.position.Set(-44.0f, 40.0f);
+	  b2Body* body1 = m_world->CreateBody(&bd);
+	  bd.position.Set(44.0f, 40.0f);
+	  b2Body* body2 = m_world->CreateBody(&bd);
+	   
+	  
+	  b2FixtureDef *fd1 = new b2FixtureDef;
+      fd1->density = 10.0;
+      fd1->friction = 0.5;
+      fd1->restitution = 0.f;
+      fd1->shape = new b2PolygonShape;
+      b2PolygonShape bs1;
+      bs1.SetAsBox(0.5,4, b2Vec2(0.0f,-2.f), 0);
+      fd1->shape = &bs1;
+      body1->CreateFixture(fd1);
+      body2->CreateFixture(fd1);
+      
+      
+      bs1.SetAsBox(4,0.5, b2Vec2(0.0f,-2.f), 0);
+      fd1->shape = &bs1;
+      body1->CreateFixture(fd1);
+      body2->CreateFixture(fd1);
+      
+      b2CircleShape circle;
+      circle.m_radius = 1.0;
+      circle.m_p.Set(0.0f,-2.f);
+      fd1->shape = &circle;
+      body1->CreateFixture(fd1);
+      body2->CreateFixture(fd1);
+      
+      
+		
+ 	b2RevoluteJointDef rjd;
+		rjd.motorSpeed = 1.0f * b2_pi;
+		rjd.maxMotorTorque = 10000.0f;
+		rjd.enableMotor = true;
+		rjd.Initialize(prevBody1, body1, b2Vec2(-44.0f, 38.0f));
+		m_world->CreateJoint(&rjd);
+		rjd.Initialize(prevBody2, body2, b2Vec2(44.0f, 38.0f));
+		m_world->CreateJoint(&rjd);
+	}
+
+		
+		
+	
+ }
 
 }
 
@@ -880,6 +957,49 @@ namespace cs251
 
 
 //  ***************************************************************************
+/* virtual  void base_sim_t::pre_solve(b2Contact* contact, const b2Manifold* oldManifold)
+{
+	const b2Manifold* manifold = contact->GetManifold();
+
+	if (manifold->pointCount == 0)
+	{
+		return;
+	}
+
+	b2Fixture* fixtureA = contact->GetFixtureA();
+	b2Fixture* fixtureB = contact->GetFixtureB();
+
+	b2PointState state1[b2_maxManifoldPoints], state2[b2_maxManifoldPoints];
+	b2GetPointStates(state1, state2, oldManifold, manifold);
+
+	b2WorldManifold worldManifold;
+	contact->GetWorldManifold(&worldManifold);
+
+	for (int32 i = 0; i < manifold->pointCount && m_point_count < k_max_contact_points; ++i)
+	{
+		contact_point_t* cp = m_points + m_point_count;
+		cp->fixtureA = fixtureA;
+		cp->fixtureB = fixtureB;
+		cp->position = worldManifold.points[i];
+		cp->normal = worldManifold.normal;
+		cp->state = state2[i];
+		cp->normalImpulse = manifold->points[i].normalImpulse;
+		cp->tangentImpulse = manifold->points[i].tangentImpulse;
+		cp->separation = worldManifold.separations[i];
+		++m_point_count;
+	}
+	//b2Fixture* fixtureA = contact->GetFixtureA();
+	//b2Fixture* fixtureB = contact->GetFixtureB();
+	if (fixtureA == m_platform)
+	{
+		contact->SetTangentSpeed(5.0f);
+	}
+	if (fixtureB == m_platform)
+	{
+		contact->SetTangentSpeed(-5.0f);
+	}
+
+}*/
 
 
     void base_sim_t::mouse_up(const b2Vec2& p)
@@ -903,8 +1023,8 @@ namespace cs251
      }
 
 
-     void base_sim_t::mouse_down ( const b2Vec2& p)
-     {
+  void base_sim_t::mouse_down ( const b2Vec2& p)
+  {
   m_mouseWorld = p;
 
   if (m_mouseJoint != NULL)
