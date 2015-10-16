@@ -39,47 +39,19 @@ using namespace std;
 #include "dominos.hpp"
 
 namespace cs251
-{  /**  
-   *  A constructor function for the dominos_t class.
-   *  Sets up the Box2D simulation.
-   *  Creates 10 simulation objects
-   *      -# ground
-   *      -# horizontal shelves
-   *      -# a curvilinear edge
-   *      -# pendulum that knocks the dominos
-   *      -# top sphere   
-   *      -# a see saw with a light box
-   *      -# a box
-   *      -# chain of pendulums 
-   *      -# series of dominos
-   *      -# a saw 
-   *      -# series of dominos on 3 planks
-   *      -# pulley system
-   *      -# revolvable horizontal platform
-   *      -# a heavy sphere 
-   *      -# a see saw 
-   *      -# a see saw with open box 
-   *
-   *  The chain of events as seen in when the code is run are as follows,
-   *  The pendulum bob hits one of the dominos in series.
-   *  The last one of the dominos hits the heavy balls.
-   *  The heavy ball bounces over the see saw an d make the light box go up
-   *  The light box pushes the chain of pendulums which then pushes the saw.
-   *  The saw then pushes the dominos and all the dominos on thhe 3 planks fall down one by one in series.
-   *  The last revolving domino taps the sphere on the horizontal plank below.
-   *  The sphere falls into the open box of the pulley which then pushes the see-saw down.
-   *  The 1st sphere which had fallen into the adjacent see-saw's open box now is thrown up.
-   *  The sphere is made to roll down to the right to touch the switch to make the fan rotate.
-   */ 
+{  //b2Body *body3;
+   //b2Body* ground;
+  /**  The is the constructor
+   * This is the documentation block for the constructor.
+   */
+
   dominos_t::dominos_t()
   {
-     //Ground
-    // \var ground
-    /*! 1) Creates pointer 'ground' to Ground object.
-     * -# A pointer to the ground object as the reference point/level for other objects in the simulation.
-     * -# Points to an edge-shaped object in the Box2D simulation.
-     * -# Creates a b2EdgeShape object 'shape', a b2BodyDef object 'bd', required to create the Ground object.
+    //Ground
+    /*! \var ground
+     * \brief pointer to the body ground
      */
+
      b2Body* ground;
     {
 
@@ -92,29 +64,18 @@ namespace cs251
       ground->CreateFixture(&shape, 0.0f);
 
     }
-    
-        //Top horizontal shelf
-    // \var b1 (local)
-    /*! 2-1) Top Horizontal shelf object.
-     *  -# Creates a shelf modelled as a horizontal box.
-     *  -# Uses b2PolygonShape to define 'shape' of the b2Body object 'ground' which represents the horizontal shelf.
-     */
-    
+       //Top horizontal shelf
     {
       b2PolygonShape shape;
       shape.SetAsBox(3.1f, 0.25f);
 
       b2BodyDef bd;
       bd.position.Set(-31.0f, 38.0f);
-       b2Body* b1 = m_world->CreateBody(&bd);
+      b2Body* b1 = m_world->CreateBody(&bd);
       b1->CreateFixture(&shape, 0.0f);
     }
+
     //horizontal shelf
-    // \var b1 (local)
-    /*! 2-2) Horizontal shelf object.
-     *  -# Creates a shelf modelled as a horizontal box.
-     *  -# Uses b2PolygonShape to define 'shape' of the b2Body object 'ground' which represents the horizontal shelf.
-     */
     {
       b2PolygonShape shape;
       shape.SetAsBox(13.f, 0.5f);
@@ -146,12 +107,6 @@ namespace cs251
       	//shaper.Set(b2Vec2(-25.0f, 37.0f), b2Vec2(-28.0f, 34.0f));
     }
     //The sphere on the top platform
-     // var: sbody (local)
-    /*! 3) A Heavy Sphere.
-     *  -# Creates pointer 'sbody' to a heavy sphere objects created on the above horizontal revolvable shelf.
-     *  -# Points to a Circle/Sphere-shaped object in the Box2D simulation.
-     *  -# Creates a b2CircleShape object 'circle', a b2BodyDef object 'ballbd', b2FixtureDef ballfd.
-     */
     {
       b2Body* sbody;
       b2CircleShape circle;
@@ -170,12 +125,6 @@ namespace cs251
     }
 
     //Dominos on the top
-     //  var: body (local)
-    /*! 4) Series of 5 Dominos on horizontal shelf.
-     *  -# Creates 5 dominos on the above created horizontal shelf.
-     *  -# b2FixtureDef object 'fd' used to specifying physical properties(density, friction, shape) of the object.
-     *  -# b2bodyDef object 'bd' used as body-definition for each b2Body 'body' representing a domino in the simulation.
-     */
     {
       b2PolygonShape shape;
       shape.SetAsBox(0.1f, 1.0f);
@@ -196,20 +145,8 @@ namespace cs251
     }
 
     //The see-saw system
-    // var: ground (local)
-    /*! 5) See Saw system.
-     *  - See saw is modelled as a plank joined with a triangle which acts as its fulcrum.
-     *  - Uses b2PolygonShape to define shapes(rectangular/triangular) of the b2Body objects(plank/fulcrum).
-     */
     {
       //The triangle wedge
-       // var: sbody (local)
-    /*! - 5-1) See Saw system fulcrum.
-     *
-     *    -# Fulcrum is modelled as a triangle.
-     *    -# Uses b2PolygonShape to define 'poly' shape of the b2Body object 'sbody'(fulcrum).
-     *    -# 'wedgefd' is b2FixtureDef for 'sbody' definig its shape('poly'), density, friction, resitution.
-     */
       b2Body* sbody;
       b2PolygonShape poly;
       b2Vec2 vertices[3];
@@ -230,13 +167,6 @@ namespace cs251
 
 
       //The plank on top of the wedge
-       //  var: body (local)
-      /*! - 5-2) Plank.
-       *   -# Creates a plank modelled as a horizontal box.
-       *   -# Uses b2PolygonShape to define 'shape' and b2FixtureDef 'fd2' which defines the physical properties
-       *   (density,shape) of the b2Body object 'body' which represents the plank.
-       *   -# The Plank rests on the above created wedge(fulcrum) and its center is fixed on the tip of the wedge(fulcrum). 
-       */   
       b2PolygonShape shape;
       shape.SetAsBox(8.0f, 0.2f);
       b2BodyDef bd2;
@@ -257,12 +187,6 @@ namespace cs251
 
 
       //The box on the right side of the see-saw
-      // var: body3 (local)
-    /*! 6) A Box.
-     *  -# Creates a light box as arectangular object in the simulation.
-     *  -# Uses b2PolygonShape object 'shape2' to define shape of the b2Body object 'body3' which represents the light box.
-     *  -# 'fd3' is a b2FixtureDef onject defining the physical properities of 'body3'. Density of the box is 17(not small)
-     */
       b2PolygonShape shape2;
       shape2.SetAsBox(2.0f, 2.0f);
       b2BodyDef bd3;
@@ -277,18 +201,7 @@ namespace cs251
     }
 
       //The pendulum that knocks the dominos off
-    //The pendulum that knocks the dominos off
-    // var: b2 (local)
-    /*! 7) Pendulum that knocks the dominos 
-    * - 7-1) Pointer to Pendulum-Stand-Base object.
-     *  
-     *   -# A pointer to the pendulum stand's base object on which the pendulum stands in the simulation.
-     *   -# Points to a Box-shaped object in the Box2D simulation.
-     *   -# Defined as bodyA in the definition of revolute joint for pendulum.
-     *   -# Creates a b2PolygonShape object 'shape', a b2BodyDef object 'bd', required to create the Pendulum Base object.
-     */
     {
-
       b2Body* b2;
       {
       	b2PolygonShape shape;
@@ -300,16 +213,6 @@ namespace cs251
   	    b2->CreateFixture(&shape, 10.0f);
       }
 
-    
-          // \var b4 
-    /*! 
-     * 
-     * - 7-2) Pointer to Pendulum Bob object.
-     *   -# A b2Body pointer 'b4' to the pendulum bob object hanging from a point to act as a pendulum in the simulation.
-     *   -# Points to a Box-shaped object in the Box2D simulation.
-     *   -# Defined as bodyB in the definition of revolute joint.
-     *   -# Creates a b2PolygonShape object 'shape', a b2BodyDef object 'bd', required to create the Pendulum Bob object.
-     */
       b2Body* b4;
       {
       	b2PolygonShape shape;
@@ -328,38 +231,9 @@ namespace cs251
 
       m_world->CreateJoint(&jd);
     }
-      /*
-    //The train of small spheres
-    {
-      b2Body* spherebody;
-      b2CircleShape circle;
-      circle.m_radius = 0.5;
-      b2FixtureDef ballfd;
-      ballfd.shape = &circle;
-      ballfd.density = 1.0f;
-      ballfd.friction = 0.0f;
-      ballfd.restitution = 0.0f;
-      for (int i = 0; i < 10; ++i)
-      {
-    	b2BodyDef ballbd;
-    	ballbd.type = b2_dynamicBody;
-    	ballbd.position.Set(-22.2f + i*1.0, 26.6f);
-    	spherebody = m_world->CreateBody(&ballbd);
-    	spherebody->CreateFixture(&ballfd);
-      }
-    }*/
 
     //The chain of pendulums that push the saw
     {
-       // var: b2 (local)
-    /*! 4) Pendulums that move the saw
-     * - 8-1) Pointer to Pendulum-Hinge-Base object.
-     *  
-     *   -# A pointer to the pendulum stand's base object on which the pendulum stands in the simulation.
-     *   -# Points to a Box-shaped object in the Box2D simulation.
-     *   -# Defined as bodyA in the definition of revolute joint for pendulum.
-     *   -# Creates a b2PolygonShape object 'shape', a b2BodyDef object 'bd', required to create the Pendulum Base object.
-     */
       b2Body* b2;
       {
             b2PolygonShape shape;
@@ -369,14 +243,6 @@ namespace cs251
             b2 = m_world->CreateBody(&bd);
             b2->CreateFixture(&shape, 0.01f);
       }
-          // \var b4 
-    /*! 
-     *  - 8.2) Pointer to Pendulum Bob objects.
-     *   -# A b2Body pointer 'b4' to the pendulum bob object hanging from a point to act as a pendulum in the simulation.
-     *   -# Points to a Box-shaped object in the Box2D simulation.
-     *   -# Defined as bodyB in the definition of revolute joint.
-     *   -# Creates a b2PolygonShape object 'shape', a b2BodyDef object 'bd', required to create the Pendulum Bob object.
-     */
       for(int i=0; i<4; i++)
       {
           b2Body* b4;
@@ -398,27 +264,17 @@ namespace cs251
           m_world->CreateJoint(&jd);
       }
     }
-
 	//The saw system(top right)
-     //The triangle wedge
-    // var: sbody (local)
-    /*! - 9) Saw system.
-     *
-     *    -# Saw is modelled as a triangle.
-     *    -# Uses b2PolygonShape to define 'poly' shape of the b2Body object 'sbody'(fulcrum).
-     *    -# 'fd' is b2FixtureDef for 'sbody' definig its shape('poly'), density, friction, resitution.
-     *    -# Also a motor joint is used to create the effect of a saw.
-     */
     {
       b2BodyDef bd;
       bd.position.Set(16.5f,34.0f);
       b2Body* b1=m_world->CreateBody(&bd);
 	    b2PolygonShape shape;
-	    shape.SetAsBox(.01f,.01f);
+	    shape.SetAsBox(0.01f,.01f);
       b2FixtureDef fd;
 	    fd.shape=&shape;
 	    fd.density=1.f;
-	    fd.restitution=0.f;        
+	    fd.restitution=0.f;
 	    b1->CreateFixture(&fd);
 
     	bd.type=b2_dynamicBody;
@@ -427,27 +283,78 @@ namespace cs251
       b2Vec2 v[3];
       v[0].Set(0,0.5f);
 	    v[1].Set(0.,-1.3f);
-	    v[2].Set(5,.5f);	
+	    v[2].Set(5,.5f);
 	    shape.Set(v,3);
 	    fd.shape=&shape;
 	    fd.density=.01f;
 	    fd.friction=1.f;
-	    body->CreateFixture(&fd);	
-	
+	    body->CreateFixture(&fd);
+/*
+      b2BodyDef box;
+      box.position.Set(20.5f,38.0f);
+      b2PolygonShape boxshape;
+      boxshape.SetAsBox(2.0f,0.1f);
+      fd.shape=&boxshape;
+      fd.density=1.f;
+      b2Body* boxx=m_world->CreateBody(&box);
+      boxx->CreateFixture(&fd);
+
+      b2BodyDef box1;
+      box1.position.Set(20.5f,34.5f);
+      box1.type=b2_dynamicBody;
+      //b2PolygonShape boxshape;
+      boxshape.SetAsBox(.01f,0.01f);
+      fd.shape=&boxshape;
+      fd.density=1.f;
+      b2Body* boxx1=m_world->CreateBody(&box1);
+      boxx1->CreateFixture(&fd);
+
+      b2BodyDef box2;
+      box2.position.Set(20.5f,34.4f);
+      box2.type=b2_dynamicBody;
+      //b2PolygonShape boxshape;
+      boxshape.SetAsBox(.01f,0.01f);
+      fd.shape=&boxshape;
+      fd.density=1.f;
+      b2Body* boxx2=m_world->CreateBody(&box2);
+      boxx2->CreateFixture(&fd);
+
+      b2BodyDef ball;
+      ball.position.Set(20.5f,30.0f);
+      b2CircleShape circle;
+      circle.m_radius=1.0f;
+      fd.shape=&circle;
+      ball.type=b2_dynamicBody;
+      fd.density=1.f;
+      b2Body* cir=m_world->CreateBody(&ball);
+      cir->CreateFixture(&fd);
+*/
 	    b2MotorJointDef mjd;
-	    mjd.Initialize(b1,body);    
+      //b2RevoluteJointDef string;
+      //b2RevoluteJointDef string1;
+      //b2RevoluteJointDef string2;
+      //b2Vec2 anchor;
+      //anchor.Set(20.5f,38.0f);
+      //b2Vec2 anchor1;
+      //anchor1.Set(20.5f,34.5f);
+      //b2Vec2 anchor2;
+      //anchor2.Set(20.5f,34.4f);
+      //string.Initialize(boxx,boxx1,anchor);
+      //string1.Initialize(boxx1,boxx2,anchor1);
+      //string2.Initialize(boxx2,cir,anchor2);
+	    mjd.Initialize(b1,body);
     	mjd.maxForce=1.f;
 	    mjd.maxTorque=1000.f;
 	   //mjd.motorSpeed=1.0f;
 	   //mjd.enableMotor=true;
 	    m_world->CreateJoint(&mjd);
+      //b2Joint* jstring=m_world->CreateJoint(&string);
+      //m_world->CreateJoint(&string1);
+      //m_world->CreateJoint(&string2);
+      //m_world->DestroyJoint(jstring);
     }
-
+    /*The planks were here ########################
 //Top 3 horizontal planks
-/*! 10) Horizontal plank objects.
-     *  -# Creates a shelf modelled as a horizontal box.
-     *  -# Uses b2PolygonShape to define 'shape' of the b2Body object 'plankbase(1/2/3)' which represents the horizontal shelf.
-     */ 
 	b2Body* plankbase;
     b2Body* plankbase2;
     b2Body* plankbase3;
@@ -468,16 +375,9 @@ namespace cs251
       plankbase3 = m_world->CreateBody(&bd);
       plankbase3->CreateFixture(&shape, 0.0f);
     }
-  
-        //Dominos series on the three planks 
-      //  var: body (local)
-    /*! 11) Series of 12 Dominos on each horizontal shelf.
-     *  -# Creates 12 dominos on the above created horizontal shelves.
-     *  -# b2FixtureDef object 'fd' used to specifying physical properties(density, friction, shape) of the object.
-     *  -# b2bodyDef object 'bd' used as body-definition for each b2Body 'body' representing a domino in the simulation.
-     *  -# Also creates 3 dominos with a revolute joint hinged at their bases.
-     */
-   {
+
+        //Dominos series on the three planks
+    {
       b2PolygonShape shape;
       shape.SetAsBox(0.1f, 1.0f);
 
@@ -561,23 +461,15 @@ namespace cs251
 	  body2 = m_world->CreateBody(&bd);
 	  body2->CreateFixture(&fd);
     }
-
+#################################################*/
     //The pulley system (bottom right corner)
-    // 
-    /*! 12) Pulley system with an open box. 
-     *  -# Consists of a bar, an open box and a pulley joint connecting the two in the simulation.
-     *  -# The bar('box2') is a simple Box-shaped b2Body, kept horizontal.
-     *  -# The open box('box1') is formed by using 3 b2PolygonShape & b2FixtureDef.
-     *  -# Pulley joint is created using b2PulleyJoitDef object used to define the associated objects and create the joint.
-     */
     {
       b2BodyDef *bd = new b2BodyDef;
       bd->type = b2_dynamicBody;
       bd->position.Set(18,5);
       bd->fixedRotation = true;
+
       //The open box
-      
-	  b2Body* box2 = m_world->CreateBody(bd);
       b2FixtureDef *fd1 = new b2FixtureDef;
       fd1->density = 10.0;
       fd1->friction = 0.5;
@@ -586,26 +478,34 @@ namespace cs251
       b2PolygonShape bs1;
       bs1.SetAsBox(2,0.2, b2Vec2(0.f,-1.9f), 0);
       fd1->shape = &bs1;
+      b2FixtureDef *fd2 = new b2FixtureDef;
+      fd2->density = 10.0;
+      fd2->friction = 0.5;
+      fd2->restitution = 0.f;
+      fd2->shape = new b2PolygonShape;
+      b2PolygonShape bs2;
+      bs2.SetAsBox(0.2,2, b2Vec2(2.0f,0.f), 0);
+      fd2->shape = &bs2;
+      b2FixtureDef *fd3 = new b2FixtureDef;
+      fd3->density = 10.0;
+      fd3->friction = 0.5;
+      fd3->restitution = 0.f;
+      fd3->shape = new b2PolygonShape;
+      b2PolygonShape bs3;
+      bs3.SetAsBox(0.2,2, b2Vec2(-2.0f,0.f), 0);
+      fd3->shape = &bs3;
+
+      b2Body* box2 = m_world->CreateBody(bd);
       box2->CreateFixture(fd1);
-      
-      bs1.SetAsBox(0.2,2, b2Vec2(2.0f,0.f), 0);
-      fd1->shape = &bs1;
-      box2->CreateFixture(fd1);
-      
-      bs1.SetAsBox(0.2,2,b2Vec2(-2.0f,0.f), 0);
-      fd1->shape = &bs1;
-	  box2->CreateFixture(fd1);
-      
-      
-      
+      box2->CreateFixture(fd2);
+      box2->CreateFixture(fd3);
+
       //The bar
       bd->position.Set(30,5);
-      bs1.SetAsBox(2,0.2);
-      fd1->shape = &bs1;
-	  fd1->density = 34.0;
+      fd1->density = 34.0;
       b2Body* box1 = m_world->CreateBody(bd);
       box1->CreateFixture(fd1);
-		
+
       // The pulley joint
       b2PulleyJointDef* myjoint = new b2PulleyJointDef();
       b2Vec2 worldAnchorOnBody1(30, 5); // Anchor point on body 1 in world axis
@@ -616,14 +516,8 @@ namespace cs251
       myjoint->Initialize(box1, box2, worldAnchorGround1, worldAnchorGround2, box1->GetWorldCenter(), box2->GetWorldCenter(), ratio);
       m_world->CreateJoint(myjoint);
     }
-    
+
     //The revolving horizontal platform
-    //   var: body (local)
-    /*! 13) Revolvable Horizontal Pulley
-     *  -# Creates a revolvable shelf modelled as a horizontal box with joint at center.
-     *  -# Uses b2PolygonShape objects to define shape of the b2Body objects body, body2 which represent the revolvable horizontal shelf.
-     *  -# Revolute joint is created using b2RevoluteJointDef object specifying localanchorA,B and bodyA,B.
-     */
     {
       b2PolygonShape shape;
       shape.SetAsBox(2.4f, 0.2f);
@@ -640,12 +534,6 @@ namespace cs251
     }
 
     //The heavy sphere on the platform
-    // var: sbody (local)
-    /*! 14) A Heavy Sphere.
-     *  -# Creates pointer 'sbody' to a heavy sphere objects created on the above horizontal revolvable shelf.
-     *  -# Points to a Circle/Sphere-shaped object in the Box2D simulation.
-     *  -# Creates a b2CircleShape object 'circle', a b2BodyDef object 'ballbd', b2FixtureDef ballfd.
-     */
     {
       b2Body* sbody;
       b2CircleShape circle;
@@ -664,19 +552,8 @@ namespace cs251
 
 
     //The see-saw system at the bottom
-    /*! 15) See Saw system.
-     *  - See saw is modelled as a plank joined with a triangle which acts as its fulcrum.
-     *  - Uses b2PolygonShape to define shapes(rectangular/triangular) of the b2Body objects(plank/fulcrum).
-     */
     {
       //The triangle wedge
-      // var: sbody (local)
-    /*! - 15.1) See Saw system fulcrum.
-     *
-     *    -# Fulcrum is modelled as a triangle.
-     *    -# Uses b2PolygonShape to define 'poly' shape of the b2Body object 'sbody'(fulcrum).
-     *    -# 'wedgefd' is b2FixtureDef for 'sbody' definig its shape('poly'), density, friction, resitution.
-     */
       b2Body* sbody;
       b2PolygonShape poly;
       b2Vec2 vertices[3];
@@ -697,14 +574,6 @@ namespace cs251
 
 
       //The plank on top of the wedge
-      //  var: body (local)
-      /*! - 15.2) Plank.
-       *   -# Creates a plank modelled as a horizontal box.
-       *   -# Uses b2PolygonShape to define 'shape' and b2FixtureDef 'fd2' which defines the physical properties
-       *   (density,shape) of the b2Body object 'body' which represents the plank.
-       *   -# The Plank rests on the above created wedge(fulcrum) and its center is fixed on the tip of the wedge(fulcrum). 
-       *   -# Also the planks friction is defined to be 0.05f.
-       */
       b2PolygonShape shape;
       shape.SetAsBox(10.0f, 0.2f);
       b2BodyDef bd2;
@@ -725,12 +594,6 @@ namespace cs251
 
 
       //The light box on the right side of the see-saw
-       // var: b3 (local)
-    /*! 16) A Box.
-     *  -# Creates a light box as arectangular object in the simulation.
-     *  -# Uses b2PolygonShape object 'shape2' to define shape of the b2Body object 'bo3' which represents the light box.
-     *  -# 'fd3' is a b2FixtureDef onject defining the physical properities of 'b3'. Density of the box is 17(not small)
-     */
       b2PolygonShape shape2;
       shape2.SetAsBox(2.0f, 2.0f);
       b2BodyDef bd3;
@@ -746,20 +609,8 @@ namespace cs251
 
 
     //The see-saw system at the bottom
-     // var: ground (local)
-    /*! 17) See Saw system.
-     *  - See saw is modelled as a plank joined with a triangle which acts as its fulcrum.
-     *  - Uses b2PolygonShape to define shapes(rectangular/triangular) of the b2Body objects(plank/fulcrum).
-     */
     {
       //The triangle wedge
-      // var: sbody (local)
-    /*! - 17.1) See Saw system fulcrum.
-     *
-     *    -# Fulcrum is modelled as a triangle.
-     *    -# Uses b2PolygonShape to define 'poly' shape of the b2Body object 'sbody'(fulcrum).
-     *    -# 'wedgefd' is b2FixtureDef for 'sbody' definig its shape('poly'), density, friction, resitution.
-     */
       b2Body* sbody;
       b2PolygonShape poly;
       b2Vec2 vertices[3];
@@ -778,14 +629,6 @@ namespace cs251
       sbody->CreateFixture(&wedgefd);
 
       //The plank on top of the wedge
-      //  var: body (local)
-      /*! - 17.2) Plank.
-       *   -# Creates a plank modelled as a horizontal box.
-       *   -# Uses b2PolygonShape to define 'shape' and b2FixtureDef 'fd2' which defines the physical properties
-       *   (density,shape) of the b2Body object 'body' which represents the plank.
-       *   -# The Plank rests on the above created wedge(fulcrum) and its center is fixed on the tip of the wedge(fulcrum). 
-       *   -# Also the planks friction is defined to be 0.05f.
-       */
       b2PolygonShape shape;
       shape.SetAsBox(8.0f, 0.2f);
       b2BodyDef bd2;
@@ -805,12 +648,6 @@ namespace cs251
       m_world->CreateJoint(&jd);
 
       //The light box on the right side of the see-saw
-       // var: b3 (local)
-    /*! 18) A Box.
-     *  -# Creates a light box as arectangular object in the simulation.
-     *  -# Uses b2PolygonShape object 'shape2' to define shape of the b2Body object 'b3' which represents the light box.
-     *  -# 'fd3' is a b2FixtureDef onject defining the physical properities of 'b3'. Density of the box is 17(not small)
-     */
       b2PolygonShape shape2;
       shape2.SetAsBox(2.0f, 2.0f);
       b2BodyDef bd3;
@@ -824,17 +661,12 @@ namespace cs251
       b3->CreateFixture(fd3);
     }
     //The open box
-     /**  The open box
-          # The open box('box1') is formed by using 3 b2PolygonShape & b2FixtureDef.
-      */
       {
        b2BodyDef *bd = new b2BodyDef;
       bd->type = b2_dynamicBody;
       bd->position.Set(-3,5);
       //bd->fixedRotation = true;
 
-        
-	  b2Body* box2 = m_world->CreateBody(bd);
       b2FixtureDef *fd1 = new b2FixtureDef;
       fd1->density = 10.0;
       fd1->friction = 0.5;
@@ -843,109 +675,28 @@ namespace cs251
       b2PolygonShape bs1;
       bs1.SetAsBox(2,0.2, b2Vec2(0.f,-1.9f), 0);
       fd1->shape = &bs1;
+      b2FixtureDef *fd2 = new b2FixtureDef;
+      fd2->density = 10.0;
+      fd2->friction = 0.5;
+      fd2->restitution = 0.f;
+      fd2->shape = new b2PolygonShape;
+      b2PolygonShape bs2;
+      bs2.SetAsBox(0.2,2, b2Vec2(2.0f,0.f), 0);
+      fd2->shape = &bs2;
+      b2FixtureDef *fd3 = new b2FixtureDef;
+      fd3->density = 10.0;
+      fd3->friction = 0.5;
+      fd3->restitution = 0.f;
+      fd3->shape = new b2PolygonShape;
+      b2PolygonShape bs3;
+      bs3.SetAsBox(0.2,2, b2Vec2(-2.0f,0.f), 0);
+      fd3->shape = &bs3;
+
+      b2Body* box2 = m_world->CreateBody(bd);
       box2->CreateFixture(fd1);
-      
-      bs1.SetAsBox(0.2,2, b2Vec2(2.0f,0.f), 0);
-      fd1->shape = &bs1;
-      box2->CreateFixture(fd1);
-      
-      bs1.SetAsBox(0.2,2, b2Vec2(-2.0f,0.f), 0);
-      fd1->shape = &bs1;
-	  box2->CreateFixture(fd1);
-      
-      /*
- 
-      // Platform for conveyor
-		{
-			b2BodyDef bd;
-			bd.position.Set(-5.0f, 5.0f);
-			b2Body* body = m_world->CreateBody(&bd);
-
-			b2PolygonShape shape;
-			shape.SetAsBox(10.0f, 0.5f);
-
-			b2FixtureDef fd;
-			fd.shape = &shape;
-			fd.friction = 0.8f;
-			m_platform = body->CreateFixture(&fd);
-		}
-
-		// Boxes for testing
-		for (int32 i = 0; i < 5; ++i)
-		{
-			b2BodyDef bd;
-			bd.type = b2_dynamicBody;
-			bd.position.Set(-10.0f + 2.0f * i, 7.0f);
-			b2Body* body = m_world->CreateBody(&bd);
-
-			b2PolygonShape shape;
-			shape.SetAsBox(0.5f, 0.5f);
-			body->CreateFixture(&shape, 20.0f);
-		}
-*/
-
-			
-
-			// Define crank.
-			{
-	  
- 	  b2BodyDef bd;
-	  
-	  b2Body* b1;		
-	  bd.position.Set(-44.0f, 44.0f);
-	  b1 = m_world->CreateBody(&bd);
-	  b2Body* prevBody1 = b1;
-	  bd.position.Set(44.0f, 44.0f);
-	  b1 = m_world->CreateBody(&bd);
-	  b2Body* prevBody2 = b1;
-	  
-	  bd.type = b2_dynamicBody;
-	  bd.position.Set(-44.0f, 40.0f);
-	  b2Body* body1 = m_world->CreateBody(&bd);
-	  bd.position.Set(44.0f, 40.0f);
-	  b2Body* body2 = m_world->CreateBody(&bd);
-	   
-	  
-	  b2FixtureDef *fd1 = new b2FixtureDef;
-      fd1->density = 10.0;
-      fd1->friction = 0.5;
-      fd1->restitution = 0.f;
-      fd1->shape = new b2PolygonShape;
-      b2PolygonShape bs1;
-      bs1.SetAsBox(0.5,4, b2Vec2(0.0f,-2.f), 0);
-      fd1->shape = &bs1;
-      body1->CreateFixture(fd1);
-      body2->CreateFixture(fd1);
-      
-      
-      bs1.SetAsBox(4,0.5, b2Vec2(0.0f,-2.f), 0);
-      fd1->shape = &bs1;
-      body1->CreateFixture(fd1);
-      body2->CreateFixture(fd1);
-      
-      b2CircleShape circle;
-      circle.m_radius = 1.0;
-      circle.m_p.Set(0.0f,-2.f);
-      fd1->shape = &circle;
-      body1->CreateFixture(fd1);
-      body2->CreateFixture(fd1);
-      
-      
-		
- 	b2RevoluteJointDef rjd;
-		rjd.motorSpeed = 1.0f * b2_pi;
-		rjd.maxMotorTorque = 10000.0f;
-		rjd.enableMotor = true;
-		rjd.Initialize(prevBody1, body1, b2Vec2(-44.0f, 38.0f));
-		m_world->CreateJoint(&rjd);
-		rjd.Initialize(prevBody2, body2, b2Vec2(44.0f, 38.0f));
-		m_world->CreateJoint(&rjd);
-	}
-
-		
-		
-	
- }
+      box2->CreateFixture(fd2);
+      box2->CreateFixture(fd3);
+      }
 
 }
 
@@ -957,49 +708,6 @@ namespace cs251
 
 
 //  ***************************************************************************
-/* virtual  void base_sim_t::pre_solve(b2Contact* contact, const b2Manifold* oldManifold)
-{
-	const b2Manifold* manifold = contact->GetManifold();
-
-	if (manifold->pointCount == 0)
-	{
-		return;
-	}
-
-	b2Fixture* fixtureA = contact->GetFixtureA();
-	b2Fixture* fixtureB = contact->GetFixtureB();
-
-	b2PointState state1[b2_maxManifoldPoints], state2[b2_maxManifoldPoints];
-	b2GetPointStates(state1, state2, oldManifold, manifold);
-
-	b2WorldManifold worldManifold;
-	contact->GetWorldManifold(&worldManifold);
-
-	for (int32 i = 0; i < manifold->pointCount && m_point_count < k_max_contact_points; ++i)
-	{
-		contact_point_t* cp = m_points + m_point_count;
-		cp->fixtureA = fixtureA;
-		cp->fixtureB = fixtureB;
-		cp->position = worldManifold.points[i];
-		cp->normal = worldManifold.normal;
-		cp->state = state2[i];
-		cp->normalImpulse = manifold->points[i].normalImpulse;
-		cp->tangentImpulse = manifold->points[i].tangentImpulse;
-		cp->separation = worldManifold.separations[i];
-		++m_point_count;
-	}
-	//b2Fixture* fixtureA = contact->GetFixtureA();
-	//b2Fixture* fixtureB = contact->GetFixtureB();
-	if (fixtureA == m_platform)
-	{
-		contact->SetTangentSpeed(5.0f);
-	}
-	if (fixtureB == m_platform)
-	{
-		contact->SetTangentSpeed(-5.0f);
-	}
-
-}*/
 
 
     void base_sim_t::mouse_up(const b2Vec2& p)
@@ -1023,8 +731,8 @@ namespace cs251
      }
 
 
-  void base_sim_t::mouse_down ( const b2Vec2& p)
-  {
+     void base_sim_t::mouse_down ( const b2Vec2& p)
+     {
   m_mouseWorld = p;
 
   if (m_mouseJoint != NULL)
