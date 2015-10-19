@@ -42,7 +42,7 @@ namespace cs251
 {  /**  
    *  A constructor function for the dominos_t class.
    *  Sets up the Box2D simulation.
-   *  Creates 17 simulation objects
+   *  Creates 16 simulation objects
    *      -# Ground Object
    *      -# Horizontal Shelves
    *      -# Redirecting Curvy Ramp
@@ -59,7 +59,7 @@ namespace cs251
    *      -# A Heavy Sphere
    *      -# See Saw Series System
    *      -# The Containers 
-   *      -# The Rotating Fans(Finale)
+   *      
    *      
    *  The chain of events as seen in when the code is run are as follows,
    *  The pendulum bob hits one of the dominos in series.
@@ -74,7 +74,7 @@ namespace cs251
    *  The 1st sphere which had fallen into the adjacent see-saw's open box now is thrown up.
    *  The sphere is made to roll down to the right to touch the switch to make the fan rotate. :)
    *  Now we can have some cool air! :P
-   */ 
+   */
   dominos_t::dominos_t()
   {
      //Ground
@@ -88,12 +88,25 @@ namespace cs251
     {
 
       b2EdgeShape shape;
-      shape.Set(b2Vec2(-90.0f, 0.0f), b2Vec2(90.0f, 0.0f));
+      shape.Set(b2Vec2(19.0f, 28.0f), b2Vec2(25.0f, 26.0f));
       b2BodyDef bd;
 
       ground = m_world->CreateBody(&bd);
 
       ground->CreateFixture(&shape, 0.0f);
+
+    }
+
+         b2Body* edge;
+    {
+
+      b2EdgeShape shape;
+      shape.Set(b2Vec2(-90.0f, 0.0f), b2Vec2(90.0f, 0.0f));
+      b2BodyDef bd;
+
+      edge = m_world->CreateBody(&bd);
+
+      edge->CreateFixture(&shape, 0.0f);
 
     }
     
@@ -227,6 +240,7 @@ namespace cs251
       ballbd.position.Set(-28.f, 38.25f);
       sbody = m_world->CreateBody(&ballbd);
       sbody->CreateFixture(&ballfd);
+      sbody->SetId(3);
     }
 
     //Dominos on the top
@@ -785,6 +799,7 @@ namespace cs251
        fd2->density = 1.f;
        fd2->shape = new b2PolygonShape;
        fd2->shape = &shape;
+       //fd2->friction=0.0f;
        body->CreateFixture(fd2);
 
        b2RevoluteJointDef jd;
@@ -836,6 +851,7 @@ namespace cs251
       fd2->density = 1.f;
       fd2->shape = new b2PolygonShape;
       fd2->shape = &shape;
+      fd2->friction=0.5f;
       body->CreateFixture(fd2);
 
       b2RevoluteJointDef jd;
@@ -876,9 +892,9 @@ namespace cs251
           fd1->shape = &bs1;
 	        box2->CreateFixture(fd1);
 
-          fd1->density = 15.f;  // changin for next iteration
+          fd1->density = 25.f;  // changin for next iteration
           fd1->friction = 5;
-          bd->position.Set(16.f,5);
+          bd->position.Set(15.f,5);
           box2 = m_world->CreateBody(bd);
         }  
       }
@@ -890,7 +906,7 @@ namespace cs251
      *  -# Defined b2FixtureDef 'fd' for 'body' - with shapes - a vertical rectangular box(b2PolygonShape), a horizontal rectangular box(b2PolygonShape), a circular shape(b2CircleShape).
      *  -# Defined b2BodyDef 'bd' and Set bd.position for both the fans, representing their different positions. Variable 'x' is used for setting the changing x-coordinate.
      *  -# Defined b2RevoluteJoint 'rjd' and set rjd.enableMotor to true to make it rotate autonomously. This is done for both the fans.
-     */
+     *//*
     {
 	   b2FixtureDef *fd = new b2FixtureDef;
      fd->density = 10.0;
@@ -937,7 +953,7 @@ namespace cs251
   
        x=44.0f;       //for the second fan positioned on the other extreme 
       } 
-	   }
+	   }*/
   }
 
 //  ***************************************************************************
@@ -990,3 +1006,4 @@ namespace cs251
 
   sim_t *sim = new sim_t("Dominos", dominos_t::create);
 }
+

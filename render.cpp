@@ -60,7 +60,12 @@ void debug_draw_t::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, c
 	}
 	glEnd();
 	glDisable(GL_BLEND);
-
+GLuint tex;
+glGenTextures(1,&tex);
+glBindTexture(GL_TEXTURE_2D, tex);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+float colors[] = { 1.0f, 0.0f, 0.0f, 1.0f };
+glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, colors);
 	glColor4f(color.r, color.g, color.b, 1.0f);
 	glBegin(GL_LINE_LOOP);
 	for (int32 i = 0; i < vertexCount; ++i)
@@ -285,16 +290,18 @@ glVertex2f( -1*rand()/(float)RAND_MAX,-1*rand()/(float)RAND_MAX );}
 
 
     }
-    void debug_draw_t::renderStars(b2Body* m_body, float b) {
+    void debug_draw_t::renderStars(b2Body* m_body) {
     b2Vec2 pos = m_body->GetPosition();
     //srand(time(0));
     glPushMatrix();
     glTranslatef( pos.x, pos.y, 0 );
-    //float r = rand()/(float)RAND_MAX;
+    //int r = rand()/(float)RAND_MAX;
     //float g = rand()/(float)RAND_MAX;
     //float b = rand()/(float)RAND_MAX;
     //c = ((rand()+rand()+rand())/(float)RAND_MAX)/3;
-    glColor3f(0,1,b);
+    //if(r%2){
+    glColor3f(1,1,0);
+    //else{glColor3f(0,0,1);}
           glPointSize(1);
       glBegin(GL_POINTS);
       glVertex2f( 0, 0 );

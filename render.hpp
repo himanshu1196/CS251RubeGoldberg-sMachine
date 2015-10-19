@@ -54,7 +54,7 @@ public:
   void DrawAABB(b2AABB* aabb, const b2Color& color);
 void DrawBall();
 void renderAtBodyPosition(b2Body* m_body,bool m_contacting);
-void renderStars(b2Body* m_body,float b);
+void renderStars(b2Body* m_body);
 };
 
 
