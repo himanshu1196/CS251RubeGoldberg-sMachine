@@ -1,4 +1,3 @@
-
 /*
 * Copyright (c) 2006-2009 Erin Catto http://www.box2d.org
 *
@@ -42,14 +41,14 @@ namespace cs251
 {  /**  
    *  A constructor function for the dominos_t class.
    *  Sets up the Box2D simulation.
-   *  Creates 17 simulation objects
+   *  Creates 16 simulation objects
    *      -# Ground Object
    *      -# Horizontal Shelves
    *      -# Redirecting Curvy Ramp
    *      -# Top Pendulum that knocks 5 Dominos
    *      -# Sphere on Top Platform(Kick Off)   
    *      -# Series of 5 Dominos on Top Platform
-   *      -# See Saw System
+   *      -# See Swa System
    *      -# The Pushing Box(Nothing much? Not Really!)
    *      -# Chain of Pendulums that move the Saw
    *      -# Saw System
@@ -59,7 +58,7 @@ namespace cs251
    *      -# A Heavy Sphere
    *      -# See Saw Series System
    *      -# The Containers 
-   *      -# The Rotating Fans(Finale)
+   *      
    *      
    *  The chain of events as seen in when the code is run are as follows,
    *  The pendulum bob hits one of the dominos in series.
@@ -86,29 +85,13 @@ namespace cs251
      */
      b2Body* ground;
     {
-
       b2EdgeShape shape;
-      shape.Set(b2Vec2(19.0f, 28.0f), b2Vec2(25.0f, 26.0f));
-      b2BodyDef bd;
-
-      ground = m_world->CreateBody(&bd);
-
-      ground->CreateFixture(&shape, 0.0f);
-
+       shape.Set(b2Vec2(-90.0f, 0.0f), b2Vec2(90.0f, 0.0f));
+       b2BodyDef bd;
+       ground = m_world->CreateBody(&bd);
+       ground->CreateFixture(&shape, 0.0f);
     }
 
-         b2Body* edge;
-    {
-
-      b2EdgeShape shape;
-      shape.Set(b2Vec2(-90.0f, 0.0f), b2Vec2(90.0f, 0.0f));
-      b2BodyDef bd;
-
-      edge = m_world->CreateBody(&bd);
-
-      edge->CreateFixture(&shape, 0.0f);
-
-    }
     
         //Top horizontal shelf
     // \var b1 (local)
@@ -143,7 +126,7 @@ namespace cs251
       b2Body* b1 = m_world->CreateBody(&bd21);
       b1->CreateFixture(&shape, 0.5f);
 
-	   // redirecting edges for the ball on the top
+     // redirecting edges for the ball on the top
      /*! 
      *  3) Redirecting Curvy Ramp. 
      *  -# Creates a redirecting Curvy Ramp modelled as a set of edges in succession forming a curvy connected component.
@@ -153,16 +136,16 @@ namespace cs251
    
       b2Body* left;
       b2Body* right;
-     	b2EdgeShape shapel, shaper;
-      	//shapel.Set(b2Vec2(-31.5f, 29.0f), b2Vec2(-33.0f, 32.0f));
+      b2EdgeShape shapel, shaper;
+        //shapel.Set(b2Vec2(-31.5f, 29.0f), b2Vec2(-33.0f, 32.0f));
       float x=-28.5, y=29.0, x2=-27.5;
       for(int i=0;i<3;i++)
-	    {
-		    shapel.Set(b2Vec2(x,y), b2Vec2(x-(3-i)*0.6, y+(1+i)*0.6));
-		    shaper.Set(b2Vec2(x2,y+4.f), b2Vec2(x2+(3-i)*0.6, y+4.f+(1+i)*0.6));
-  		  x=x-(3-i)*0.6;
+      {
+        shapel.Set(b2Vec2(x,y), b2Vec2(x-(3-i)*0.6, y+(1+i)*0.6));
+        shaper.Set(b2Vec2(x2,y+4.f), b2Vec2(x2+(3-i)*0.6, y+4.f+(1+i)*0.6));
+        x=x-(3-i)*0.6;
         x2=x2+(3-i)*0.6;
-		    y=y+(1+i)*0.6;
+        y=y+(1+i)*0.6;
         b2BodyDef bd;
         left = m_world->CreateBody(&bd);
         right = m_world->CreateBody(&bd);
@@ -261,11 +244,11 @@ namespace cs251
 
       for (int i =0; i < 5; ++i)
       {
-    	 b2BodyDef bd;
-    	 bd.type = b2_dynamicBody;
-    	 bd.position.Set(-33.5f + 1.0f * i, 40.f);
-    	 b2Body* body = m_world->CreateBody(&bd);
-    	 body->CreateFixture(&fd);
+       b2BodyDef bd;
+       bd.type = b2_dynamicBody;
+       bd.position.Set(-33.5f + 1.0f * i, 40.f);
+       b2Body* body = m_world->CreateBody(&bd);
+       body->CreateFixture(&fd);
       }
     }
 
@@ -393,115 +376,66 @@ namespace cs251
           m_world->CreateJoint(&jd);
       }
     }
-	    //The saw system(top right)
+      //The saw system(top right)
       // var: sbody (local)
       /*! 10) Saw system.
        *    -# Saw, b2Body 'body', is modelled as a triangle(3 vertices to define 'shape') hung on a small b2Body 'b1'.
        *    -# Uses b2PolygonShape 'poly' to define shape of the b2Body object 'body'.
        *    -# 'fd' is b2FixtureDef for 'body' definig its shape('poly'), density, friction, resitution.
        *    -# Creates a b2MotorJointDef object 'mjd' to create a motor joint, basically to create the effect of a saw.
+       *    -# Redirecting Path Object.
+       *       Defines a b2Body object pointer to the ground object as the reference point/level for other objects in the simulation.
+       *       Points to an edge-shaped object in the Box2D simulation.
+       *       Creates a b2EdgeShape object 'shape', a b2BodyDef object 'bd', required to create the Ground object.
        */
     {
       b2BodyDef bd;
       bd.position.Set(16.5f,34.0f);
       b2Body* b1=m_world->CreateBody(&bd);
-	    b2PolygonShape shape;
-	    shape.SetAsBox(.01f,.01f);
+      b2PolygonShape shape;
+      shape.SetAsBox(.01f,.01f);
       b2FixtureDef fd;
-	    fd.shape=&shape;
-	    fd.density=1.f;
-	    fd.restitution=0.f;        
-	    b1->CreateFixture(&fd);
+      fd.shape=&shape;
+      fd.density=1.f;
+      fd.restitution=0.f;        
+      b1->CreateFixture(&fd);
 
-    	bd.type=b2_dynamicBody;
-    	bd.position.Set(15.f,34.0f);
-	    b2Body* body=m_world->CreateBody(&bd);
+      bd.type=b2_dynamicBody;
+      bd.position.Set(15.f,34.0f);
+      b2Body* body=m_world->CreateBody(&bd);
       b2Vec2 v[3];
       v[0].Set(0,0.5f);
-	    v[1].Set(0.,-1.3f);
-	    v[2].Set(5,.5f);	
-	    shape.Set(v,3);
-	    fd.shape=&shape;
-	    fd.density=.01f;
-	    fd.friction=1.f;
-	    body->CreateFixture(&fd);	
-	
-	    b2MotorJointDef mjd;
-	    mjd.Initialize(b1,body);    
-    	mjd.maxForce=1.f;
-	    mjd.maxTorque=1000.f;
-	    m_world->CreateJoint(&mjd);
-    } 
-      /*//Aaksah's Comments
-      //#****************************************** 
-      b2BodyDef box;
-      box.position.Set(20.5f,38.0f);
-      b2PolygonShape boxshape;
-      boxshape.SetAsBox(2.0f,0.1f);
-      fd.shape=&boxshape;
-      fd.density=1.f;
-      b2Body* boxx=m_world->CreateBody(&box);
-      boxx->CreateFixture(&fd);
-
-      b2BodyDef box1;
-      box1.position.Set(20.5f,34.5f);
-      box1.type=b2_dynamicBody;
-      //b2PolygonShape boxshape;
-      boxshape.SetAsBox(.01f,0.01f);
-      fd.shape=&boxshape;
-      fd.density=1.f;
-      b2Body* boxx1=m_world->CreateBody(&box1);
-      boxx1->CreateFixture(&fd);
-
-      b2BodyDef box2;
-      box2.position.Set(20.5f,34.4f);
-      box2.type=b2_dynamicBody;
-      //b2PolygonShape boxshape;
-      boxshape.SetAsBox(.01f,0.01f);
-      fd.shape=&boxshape;
-      fd.density=1.f;
-      b2Body* boxx2=m_world->CreateBody(&box2);
-      boxx2->CreateFixture(&fd);
-
-      b2BodyDef ball;
-      ball.position.Set(20.5f,30.0f);
-      b2CircleShape circle;
-      circle.m_radius=1.0f;
-      fd.shape=&circle;
-      ball.type=b2_dynamicBody;
-      fd.density=1.f;
-      b2Body* cir=m_world->CreateBody(&ball);
-      cir->CreateFixture(&fd);
-
-
-       //b2RevoluteJointDef string;
-      //b2RevoluteJointDef string1;
-      //b2RevoluteJointDef string2;
-      //b2Vec2 anchor;
-      //anchor.Set(20.5f,38.0f);
-      //b2Vec2 anchor1;
-      //anchor1.Set(20.5f,34.5f);
-      //b2Vec2 anchor2;
-      //anchor2.Set(20.5f,34.4f);
-      //string.Initialize(boxx,boxx1,anchor);
-      //string1.Initialize(boxx1,boxx2,anchor1);
-      //string2.Initialize(boxx2,cir,anchor2);
+      v[1].Set(0.,-1.3f);
+      v[2].Set(5,.5f);  
+      shape.Set(v,3);
+      fd.shape=&shape;
+      fd.density=.01f;
+      fd.friction=1.f;
+      body->CreateFixture(&fd); 
   
-
-      //b2Joint* jstring=m_world->CreateJoint(&string);
-      //m_world->CreateJoint(&string1);
-      //m_world->CreateJoint(&string2);
-      //m_world->DestroyJoint(jstring);
-    }
-      //#*************************************
-  */
+      b2MotorJointDef mjd;
+      mjd.Initialize(b1,body);    
+      mjd.maxForce=1.f;
+      mjd.maxTorque=1000.f;
+      m_world->CreateJoint(&mjd);
+    } 
+     
     //The redirecting path
+    // \var edge
+    /*  Redirecting Path Object.
+     * -# Defines a b2Body object pointer to the ground object as the reference point/level for other objects in the simulation.
+     * -# Points to an edge-shaped object in the Box2D simulation.
+     * -# Creates a b2EdgeShape object 'shape', a b2BodyDef object 'bd', required to create the Ground object.
+     */ 
+    b2Body* edge;
     {
-
+      b2EdgeShape shape;
+      shape.Set(b2Vec2(19.0f, 28.0f), b2Vec2(25.0f, 26.0f));
+      b2BodyDef bd;
+      edge = m_world->CreateBody(&bd);
+      edge->CreateFixture(&shape, 0.0f);
     }
-
-
-    
+ 
 
     //Top 3 horizontal planks
     // \var plankbase[3]
@@ -557,10 +491,10 @@ namespace cs251
         
       for(int k=0;k<3;k++) 
       { for (int i = lower; i <=higher; ++i)    
-	       { bd.position.Set(-35.5f+58.0f + 1.0f * i, 21.25f+3.0f-k*3.0f);
-	         body = m_world->CreateBody(&bd);
-	         body->CreateFixture(&fd);
-	       }
+         { bd.position.Set(-35.5f+58.0f + 1.0f * i, 21.25f+3.0f-k*3.0f);
+           body = m_world->CreateBody(&bd);
+           body->CreateFixture(&fd);
+         }
         // use the last created domino
         
          switch(k)
@@ -602,7 +536,7 @@ namespace cs251
       bd->fixedRotation = true;
       //The open box
       
-	    b2Body* box2 = m_world->CreateBody(bd);
+      b2Body* box2 = m_world->CreateBody(bd);
       b2FixtureDef *fd1 = new b2FixtureDef;
       fd1->density = 500.0;
       fd1->friction = 5;
@@ -627,7 +561,7 @@ namespace cs251
       bd->fixedRotation = false;
       bd->position.Set(23,13.5f);
       fd1->shape = &bs1;
-  	  fd1->density = 500.0;
+      fd1->density = 500.0;
       fd1->friction = 0.01f;
 
        b2BodyDef bd1;
@@ -645,7 +579,7 @@ namespace cs251
         box1[i] = m_world->CreateBody(bd);
         box1[i]->CreateFixture(fd1);
         fd1->density=1.f;
-		    bs1.SetAsBox(3,0.2, b2Vec2(-3.f,0),0);
+        bs1.SetAsBox(3,0.2, b2Vec2(-3.f,0),0);
         box1[i]->CreateFixture(fd1);
       
         b2Body* body1 = m_world->CreateBody(&bd1);
@@ -872,7 +806,7 @@ namespace cs251
        bd->position.Set(-1.5,5);
         //bd->fixedRotation = true;
      
-  	   b2Body* box2 = m_world->CreateBody(bd);
+       b2Body* box2 = m_world->CreateBody(bd);
        b2FixtureDef *fd1 = new b2FixtureDef;
        fd1->density = 10.0;
        fd1->friction = 0.5;
@@ -890,7 +824,7 @@ namespace cs251
       
           bs1.SetAsBox(0.2,2, b2Vec2(-2.0f,0.f), 0);
           fd1->shape = &bs1;
-	        box2->CreateFixture(fd1);
+          box2->CreateFixture(fd1);
 
           fd1->density = 25.f;  // changin for next iteration
           fd1->friction = 5;
@@ -899,121 +833,7 @@ namespace cs251
         }  
       }
     }  
-     //The see-saw system
-    /*! 7) See Saw system.
-     * - See saw is modelled as a plank joined with a triangular which acts as its fulcrum.
-     * Uses b2PolygonShape to define shapes(rectangular/triangular) of the b2Body objects(plank/fulcrum).
-     * Define a revolute joint between plank and th tip of wedge.
-     */
-    {
-      //The triangle wedge
-      // var: sbody (local)
-     /*! - 7.1) See Saw system fulcrum.
-      *
-      *   -# Fulcrum is modelled as a triangle, simply a 3 vertex polygon.
-      *   -# Uses b2PolygonShape to define 'poly' shape of the b2Body object 'sbody', wihich represents the fulcrum .
-      *   -# 'wedgefd' is b2FixtureDef for 'sbody', defining its b2PolygonShape 'poly' and density, friction, resitution with (b2FixtureDef)wedgefd.
-      */
-     /* b2Body* sbody;
-      b2PolygonShape poly;
-      b2Vec2 vertices[3];
-      vertices[0].Set(-1,0);
-      vertices[1].Set(1,0);
-      vertices[2].Set(0,1);
-      poly.Set(vertices, 3);
-      b2FixtureDef wedgefd;
-      wedgefd.shape = &poly;
-      wedgefd.density = 10.0f;
-      wedgefd.friction = 0.0f;
-      wedgefd.restitution = 0.0f;
-      b2BodyDef wedgebd;
-      wedgebd.position.Set(-23.0f, 0.0f);
-      sbody = m_world->CreateBody(&wedgebd);
-      sbody->CreateFixture(&wedgefd);
-      //The plank on top of the wedge
-       //  var: body (local)
-      /*!  - 7.2) The Plank.
-       *
-       *     -# Creates a plank modelled as a flattened (horizontal) box.
-       *     -# Defines b2PolygonShape 'shape' for the flattened shape and b2FixtureDef 'fd2' to define the physical properties (density,shape) of the b2Body object 'body', which represents the plank.
-       *     -# Defines b2RevoluteJointDef to define a revolute joint between the plank, and the tip of the wedge(fulcrum), on which it rests, at its center. 
-       */   
-     /* b2PolygonShape shape;
-      shape.SetAsBox(8.0f, 0.2f);
-      b2BodyDef bd2;
-      bd2.position.Set(-23.0f, 1.0f);
-      bd2.type = b2_dynamicBody;
-      b2Body* body = m_world->CreateBody(&bd2);
-      b2FixtureDef *fd2 = new b2FixtureDef;
-      fd2->density = 1.0f;
-      fd2->friction = 0.0f;
-      fd2->shape = new b2PolygonShape;
-      fd2->shape = &shape;
-      body->CreateFixture(fd2);
-
-      b2RevoluteJointDef jd;
-      b2Vec2 anchor;
-      anchor.Set(-23.0f, 1.0f);
-      jd.Initialize(sbody, body, anchor);
-      m_world->CreateJoint(&jd);
-      */
-    }
-		/*! 
-     *  17) The 2 Rotating Fans(Finale)
-     *  -# The rotating fan is modelled as 4 rotating rectangular fins about a circular disk hanging from a point.
-     *  -# Defined b2body* objects 'b1', 'body' representing the point of suspension and the fan respectively. 
-     *  -# Defined b2FixtureDef 'fd' for 'body' - with shapes - a vertical rectangular box(b2PolygonShape), a horizontal rectangular box(b2PolygonShape), a circular shape(b2CircleShape).
-     *  -# Defined b2BodyDef 'bd' and Set bd.position for both the fans, representing their different positions. Variable 'x' is used for setting the changing x-coordinate.
-     *  -# Defined b2RevoluteJoint 'rjd' and set rjd.enableMotor to true to make it rotate autonomously. This is done for both the fans.
-     *//*
-    {
-	   b2FixtureDef *fd = new b2FixtureDef;
-     fd->density = 10.0;
-     fd->friction = 0.5;
-     fd->restitution = 0.f;
-     fd->shape = new b2PolygonShape;
-    
-     b2PolygonShape shape;
-     
-     b2CircleShape circle;
-     circle.m_radius = 1.0;
-     circle.m_p.Set(0.0f,-2.f);
-    
-     b2RevoluteJointDef rjd;
-     rjd.motorSpeed = 1.0f * b2_pi;
-     rjd.maxMotorTorque = 10000.0f;
-     rjd.enableMotor = true;
-  
-	    b2Body *b1, *body;		
-      float x = -44.0f;
-
-      for(int i=0;i<2;i++)
-     { b2BodyDef bd;
-       bd.position.Set(x,44.0f);
-       b1 = m_world->CreateBody(&bd);
-    
-       bd.type = b2_dynamicBody;
-       bd.position.Set(x, 40.0f);
-       body = m_world->CreateBody(&bd);
-
-       shape.SetAsBox(0.5,4, b2Vec2(0.0f,-2.f), 0);
-       fd->shape = &shape;
-       body->CreateFixture(fd);
-     
-       shape.SetAsBox(4,0.5, b2Vec2(0.0f,-2.f), 0);
-       fd->shape = &shape;
-       body->CreateFixture(fd);
-      
-       fd->shape = &circle;
-       body->CreateFixture(fd);
-
-       rjd.Initialize(b1, body, b2Vec2(x, 38.0f));
-       m_world->CreateJoint(&rjd);
-  
-       x=44.0f;       //for the second fan positioned on the other extreme 
-      } 
-	   }*/
-  }
+}
 
 //  ***************************************************************************
   void base_sim_t::mouse_up(const b2Vec2& p)
@@ -1065,4 +885,3 @@ namespace cs251
 
   sim_t *sim = new sim_t("Dominos", dominos_t::create);
 }
-
