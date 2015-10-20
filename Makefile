@@ -33,9 +33,9 @@ GL_ROOT=/usr/include/
 LIBS = -lBox2D -lglui -lglut -lGLU -lGL
 
 # Compiler and Linker flags
-CPPFLAGS =-g -O3 -Wall -fno-strict-aliasing
+CPPFLAGS =-g -O3 -Wall -fno-strict-aliasing -pg
 CPPFLAGS+=-I $(BOX2D_ROOT)/include -I $(GLUI_ROOT)/include
-LDFLAGS+=-L $(BOX2D_ROOT)/lib -L $(GLUI_ROOT)/lib
+LDFLAGS+=-L $(BOX2D_ROOT)/lib -L $(GLUI_ROOT)/lib -pg
 
 ######################################
 
@@ -104,7 +104,11 @@ report:
 release:
 	@./bin/cs251_base	
 profile:
-	
+	@make all
+	@$(PRINTF) "$(MESG_COLOR)Please close the simulation when it has run upto desired length of time \n $(NO_COLOR)"
+	@./bin/cs251_base
+	@gprof ./bin/cs251_base gmon.out > flatprofile.txt
+	@gprof ./bin/cs251_base gmon.out -P -b > callgraph.txt
 
 clean:
 	@$(ECHO) -n "Cleaning up..."
