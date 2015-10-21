@@ -41,7 +41,7 @@ namespace cs251
 {  /**  
    *  A constructor function for the dominos_t class.
    *  Sets up the Box2D simulation.
-   *  Creates 17 simulation objects
+   *  Creates 18 simulation objects
    *      -# Ground Object
    *      -# Horizontal Shelves
    *      -# Redirecting Curvy Ramp
@@ -58,6 +58,7 @@ namespace cs251
    *      -# A Heavy Sphere
    *      -# See Saw Series System
    *      -# The Containers 
+   *      -# Small Car
    *      -# The 2 Rotating Fans
    *      
    *      
@@ -72,7 +73,8 @@ namespace cs251
    *  The sphere falls into the open box of the pulley i.e. pulls up the loading bars.
    *  The 4 spheres in the loaded bars fall down into the other(right) container.
    *  The 1st sphere which had fallen into the adjacent see-saw's open box now is thrown up.
-   *  The sphere is made to roll down to the right to touch the switch to make the fan rotate. :)
+   *  The sphere is made to roll down to the right to push the car up the ramp.
+   *  Finally the car touches the switch to make the fans rotate. :)
    *  Now we can have some cool air! :P
    */
   dominos_t::dominos_t()
@@ -838,6 +840,15 @@ namespace cs251
     }
 
     // Car
+    /*! 17)Car 
+     *   -# Defined b2Body object pointers (chasis-)m_car, (wheels-) m_wheel1, m_wheel2, which together form the car!
+     *   -# Defined b2PolygonShape 'chassis' using array of 8 vertices, for the car's outer body. Defined  b2CircleShape circle for the wheels.
+     *   -# Defined b2WheelJointDef jd for both the wheels created above. 
+     *   -# 17.1) Curvy Ramp2: 
+     *       Creates a redirecting Curvy Ramp modelled as a set of edges in succession forming a curvy connected component.
+     *       Uses b2EdgeShape to define 'shapel' of the b2Body object 'left' which represent the curvy slopes.
+     *       Redifined 'shapel' to reuse the variable for creating set of connected-edges.
+     */
     {
       b2PolygonShape chassis;
       b2Vec2 vertices[8];
@@ -893,11 +904,11 @@ namespace cs251
     }
      // Ramp
      /* 
-     *    - 10.1) Curvy Ramp2. 
-     *        -# Creates a redirecting Curvy Ramp modelled as a set of edges in succession forming a curvy connected component.
-     *        -# Uses b2EdgeShape to define 'shapel' of the b2Body object 'left' which represent the curvy slopes.
-     *        -# Redifined 'shapel' to reuse the variable for creating set of connected-edges.
-     */
+      *  -# 17.1) Curvy Ramp2: 
+      *       Creates a redirecting Curvy Ramp modelled as a set of edges in succession forming a curvy connected component.
+      *       Uses b2EdgeShape to define 'shapel' of the b2Body object 'left' which represent the curvy slopes.
+      *       Redifined 'shapel' to reuse the variable for creating set of connected-edges.
+      */
      {
       b2Body* left;
       b2EdgeShape shapel, shaper;
@@ -911,15 +922,7 @@ namespace cs251
         left = m_world->CreateBody(&bd);
         left->CreateFixture(&shapel, 0.0f);
       }
-      /*for(int i=0;i<4;i++)
-      {
-        shapel.Set(b2Vec2(x,y), b2Vec2(x+(i+1)*0.6, y+(4-i)*0.6));
-        x=x+(i+1)*0.6;
-        y=y+(4-i)*0.6;
-        b2BodyDef bd;
-        left = m_world->CreateBody(&bd);
-        left->CreateFixture(&shapel, 0.0f);
-      }*/
+    
      }
     //Bottom button box
     // \var b1 (local)
