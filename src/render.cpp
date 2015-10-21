@@ -53,19 +53,28 @@ void debug_draw_t::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, c
 	glEnable(GL_BLEND);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glColor4f(0.5f * color.r, 0.5f * color.g, 0.5f * color.b, 0.5f);
-	glBegin(GL_TRIANGLE_FAN);
+	glPushMatrix();
+	//!Texture
+	/*!
+	The texture to be added.
+	*/
+	GLuint tex;
+	glGenTextures(1,&tex);
+	//!GL_TEXTURE_2D
+	/*!
+	The texture has to be applied on 2d surface.
+	*/
+	glBindTexture(GL_TEXTURE_2D, tex);
+	glBegin(GL_TRIANGLE_STRIP);
 	for (int32 i = 0; i < vertexCount; ++i)
 	{
+		glTexCoord2f(vertices[i].x, vertices[i].y);
 		glVertex2f(vertices[i].x, vertices[i].y);
 	}
+	glPopMatrix();
 	glEnd();
 	glDisable(GL_BLEND);
-GLuint tex;
-glGenTextures(1,&tex);
-glBindTexture(GL_TEXTURE_2D, tex);
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-float colors[] = { 1.0f, 0.0f, 0.0f, 1.0f };
-glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, colors);
+
 	glColor4f(color.r, color.g, color.b, 1.0f);
 	glBegin(GL_LINE_LOOP);
 	for (int32 i = 0; i < vertexCount; ++i)
