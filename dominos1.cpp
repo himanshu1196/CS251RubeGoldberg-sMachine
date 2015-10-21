@@ -808,7 +808,7 @@ namespace cs251
       {
        b2BodyDef *bd = new b2BodyDef;
        bd->type = b2_dynamicBody;
-       bd->position.Set(-1.5,5);
+       bd->position.Set(-3.0,5);
         //bd->fixedRotation = true;
      
        b2Body* box2 = m_world->CreateBody(bd);
@@ -818,7 +818,7 @@ namespace cs251
        fd1->restitution = 0.f;
        fd1->shape = new b2PolygonShape;
        b2PolygonShape bs1;
-       for(int i=0;i<2;i++)
+       for(int i=0;i<1;i++)
        {  bs1.SetAsBox(2,0.2, b2Vec2(0.f,-1.9f), 0);
           fd1->shape = &bs1;
           box2->CreateFixture(fd1);
@@ -835,7 +835,7 @@ namespace cs251
           fd1->friction = 5;
           bd->position.Set(15.f,5);
           box2 = m_world->CreateBody(bd);
-        }  
+        } 
       }
     }
 
@@ -865,7 +865,7 @@ namespace cs251
 
       b2BodyDef bd;
       bd.type = b2_dynamicBody;
-      bd.position.Set(-22.f, 1.0f);
+      bd.position.Set(-32.f, 1.0f);
       b2Body* m_car = m_world->CreateBody(&bd);
       m_car->CreateFixture(&chassis, 0.001f);
       m_car->SetId(3);
@@ -874,11 +874,11 @@ namespace cs251
       fd.density = .001f;
       fd.friction = 0.9f;
 
-      bd.position.Set(-23.f, 0.35f);
+      bd.position.Set(-33.f, 0.35f);
       b2Body*  m_wheel1 = m_world->CreateBody(&bd);
       m_wheel1->CreateFixture(&fd);
       m_wheel1->SetId(3);
-      bd.position.Set(-21.f, 0.4f);
+      bd.position.Set(-31.f, 0.4f);
       b2Body*  m_wheel2 = m_world->CreateBody(&bd);
       fd.density=0.005f;
       m_wheel2->CreateFixture(&fd);
@@ -912,7 +912,7 @@ namespace cs251
      {
       b2Body* left;
       b2EdgeShape shapel, shaper;
-      float x=-23, y=0;
+      float x=-33, y=0;
       for(int i=0;i<3;i++)
       {
         shapel.Set(b2Vec2(x,y), b2Vec2(x-(4-i)*0.8, y+(1+i)*0.4));
@@ -934,11 +934,72 @@ namespace cs251
     b2PolygonShape shape;
     shape.SetAsBox(2.f, 2.f);
     b2BodyDef bd;
-    bd.position.Set(-42.8f, 2.0f);
+    bd.position.Set(-47.9f, 2.0f);
     b2Body* b1 = m_world->CreateBody(&bd);
     b1->CreateFixture(&shape, 0.5f);
     }
+    ///////////////////////////////////////////////////////////////////////////////
+//The third see-saw in bottom left
+    /*! 7) Third See-Saw.
+     * - See saw is modelled as a plank joined with a triangular which acts as its fulcrum.
+     * Uses b2PolygonShape to define shapes(rectangular/triangular) of the b2Body objects(plank/fulcrum).
+     * Define a revolute joint between plank and th tip of wedge.
+     */
+    {
+      //The triangle wedge
+      // var: sbody (local)
+     /*! - 7.1) See Saw system fulcrum.
+      *
+      *   -# Fulcrum is modelled as a triangle, simply a 3 vertex polygon.
+      *   -# Uses b2PolygonShape to define 'poly' shape of the b2Body object 'sbody', wihich represents the fulcrum .
+      *   -# 'wedgefd' is b2FixtureDef for 'sbody', defining its b2PolygonShape 'poly' and density, friction, resitution with (b2FixtureDef)wedgefd.
+      */
+      b2Body* sbody;
+      b2PolygonShape poly;
+      b2Vec2 vertices[3];
+      vertices[0].Set(-1,0);
+      vertices[1].Set(1,0);
+      vertices[2].Set(0,1);
+      poly.Set(vertices, 3);
+      b2FixtureDef wedgefd;
+      wedgefd.shape = &poly;
+      wedgefd.density = 10.0f;
+      wedgefd.friction = 0.0f;
+      wedgefd.restitution = 0.0f;
+      b2BodyDef wedgebd;
+      wedgebd.position.Set(-23.0f, 0.0f);
+      sbody = m_world->CreateBody(&wedgebd);
+      sbody->CreateFixture(&wedgefd);
+      //The plank on top of the wedge
+      //  var: body (local)
+      /*!  - 7.2) The Plank.
+       *
+       *     -# Creates a plank modelled as a flattened (horizontal) box.
+       *     -# Defines b2PolygonShape 'shape' for the flattened shape and b2FixtureDef 'fd2' to define the physical properties (density,shape) of the b2Body object 'body', which represents the plank.
+       *     -# Defines b2RevoluteJointDef to define a revolute joint between the plank, and the tip of the wedge(fulcrum), on which it rests, at its center. 
+       */   
+      b2PolygonShape shape;
+      shape.SetAsBox(8.0f, 0.2f);
+      b2BodyDef bd2;
+      bd2.position.Set(-23.0f, 1.0f);
+      bd2.type = b2_dynamicBody;
+      b2Body* body = m_world->CreateBody(&bd2);
+      b2FixtureDef *fd2 = new b2FixtureDef;
+      fd2->density = 1.0f;
+      fd2->friction = 0.0f;
+      fd2->shape = new b2PolygonShape;
+      fd2->shape = &shape;
+      body->CreateFixture(fd2);
+
+      b2RevoluteJointDef jd;
+      b2Vec2 anchor;
+      anchor.Set(-23.0f, 1.0f);
+      jd.Initialize(sbody, body, anchor);
+      m_world->CreateJoint(&jd);
+      
+    }
 }
+
 
 //  ***************************************************************************
   //! A member taking one argument.
