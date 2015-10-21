@@ -118,9 +118,9 @@ profile:
 
 clean:
 	@$(ECHO) -n "Cleaning up..."
-	@$(RM) -rf $(OBJDIR) *~ $(DEPS) $(SRCDIR)/*~ $(DOCDIR)/*.aux $(DOCDIR)/*.bbl $(DOCDIR)/*.blg $(DOCDIR)/*.log $(DOCDIR)/*.out $(DOCDIR)/*.nav $(DOCDIR)/*.toc $(DOCDIR)/*.snm callgraph.txt flatprofile.txt gmon.out
+	@$(RM) -rf $(OBJDIR) *~ $(DEPS) $(SRCDIR)/*~ $(DOCDIR)/*.aux $(DOCDIR)/*.bbl $(DOCDIR)/*.blg $(DOCDIR)/*.log $(DOCDIR)/*.out $(DOCDIR)/*.nav $(DOCDIR)/*.toc $(DOCDIR)/*.snm callgraph.txt flatprofile.txt gmon.out callgraph.dot
 	@$(ECHO) "Done"
 
 distclean: clean
-	@$(RM) -rf $(BINDIR) $(DOCDIR)/html $(DOCDIR)/*.aux $(DOCDIR)/*.bbl $(DOCDIR)/*.blg $(DOCDIR)/*.log $(DOCDIR)/*.out $(DOCDIR)/*.pdf $(DOCDIR)/*.nav $(DOCDIR)/*.toc $(DOCDIR)/*.snm callgraph.txt flatprofile.txt gmon.out
+	@$(RM) -rf $(BINDIR) $(DOCDIR)/html $(DOCDIR)/*.aux $(DOCDIR)/*.bbl $(DOCDIR)/*.blg $(DOCDIR)/*.log $(DOCDIR)/*.out $(DOCDIR)/*.pdf $(DOCDIR)/*.nav $(DOCDIR)/*.toc $(DOCDIR)/*.snm flatprofile.txt gmon.out callgraph.*
 
