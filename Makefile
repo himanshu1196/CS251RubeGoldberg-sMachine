@@ -16,6 +16,7 @@ BIBTEX = bibtex
 # Project Name (generate executable with this name)
 TARGET = cs251_base
 PDF = report
+BEAMER = Presentation
 # Project Paths
 PROJECT_ROOT=./
 EXTERNAL_ROOT=$(PROJECT_ROOT)/external
@@ -67,6 +68,9 @@ setup:
 	@$(ECHO) "Setting up compilation..."
 	@mkdir -p obj
 	@mkdir -p bin
+	@cd external && cd src && if ! [ -d Box2D ]; then tar zxfv Box2D.tar.gz ; cd ..; cd ..; pushd ./external/src && cd Box2D && mkdir build251 && cd build251 && cmake ../ &&  make && make install ; popd ;fi;
+	
+
 
 $(BINDIR)/$(TARGET): $(OBJS)
 	@$(PRINTF) "$(MESG_COLOR)Building executable:$(NO_COLOR) $(FILE_COLOR) %16s$(NO_COLOR)" "$(notdir $@)"
@@ -99,9 +103,9 @@ codeDoc:
 	@$(ECHO) "Done"
 
 report: 
-	@cd ./doc && $(PDFLATEX) $(PDF).tex 2 > /dev/null && $(BIBTEX) -terse $(PDF)  && $(PDFLATEX) $(PDF).tex 2 > /dev/null && $(PDFLATEX) $(PDF).tex 2 > /dev/null;
+	@cd ./doc && $(PDFLATEX) $(PDF).tex 2 > /dev/null && $(BIBTEX) -terse $(PDF)  && $(PDFLATEX) $(PDF).tex 2 > /dev/null && $(PDFLATEX) $(PDF).tex 2 > /dev/null && $(PDFLATEX) $(BEAMER).tex 2 > /dev/null;
 
-release:
+release: setup $(BINDIR)/$(TARGET)
 	@./bin/cs251_base	
 profile:
 	@make all
@@ -112,8 +116,8 @@ profile:
 
 clean:
 	@$(ECHO) -n "Cleaning up..."
-	@$(RM) -rf $(OBJDIR) *~ $(DEPS) $(SRCDIR)/*~ $(DOCDIR)/*.aux $(DOCDIR)/*.bbl $(DOCDIR)/*.blg $(DOCDIR)/*.log $(DOCDIR)/*.out
+	@$(RM) -rf $(OBJDIR) *~ $(DEPS) $(SRCDIR)/*~ $(DOCDIR)/*.aux $(DOCDIR)/*.bbl $(DOCDIR)/*.blg $(DOCDIR)/*.log $(DOCDIR)/*.out $(DOCDIR)/*.nav $(DOCDIR)/*.toc $(DOCDIR)/*.snm callgraph.txt flatprofile.txt gmon.out
 	@$(ECHO) "Done"
 
 distclean: clean
-	@$(RM) -rf $(BINDIR) $(DOCDIR)/html $(DOCDIR)/*.aux $(DOCDIR)/*.bbl $(DOCDIR)/*.blg $(DOCDIR)/*.log $(DOCDIR)/*.out $(DOCDIR)/*.pdf
+	@$(RM) -rf $(BINDIR) $(DOCDIR)/html $(DOCDIR)/*.aux $(DOCDIR)/*.bbl $(DOCDIR)/*.blg $(DOCDIR)/*.log $(DOCDIR)/*.out $(DOCDIR)/*.pdf $(DOCDIR)/*.nav $(DOCDIR)/*.toc $(DOCDIR)/*.snm callgraph.txt flatprofile.txt gmon.out
