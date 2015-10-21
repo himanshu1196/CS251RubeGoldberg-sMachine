@@ -280,15 +280,17 @@ Sohum Dhar &  Base Code(main), Report, Documentation(main), & \\ & Makefile(main
 \item Making switch (for the Fans(finale) etc.)
 \item Making Car element
 \item Creating Explosive Elements
+\item Making the Objects Move with the Mouse!
 \end{enumerate}}
-\item We \textbf{got the timings right} by setting the densities, friction etc. of various elements in the simulation(\textbf{trial and error technique} learnt in lab03). Also, getting the timing right especially for the loader element. For example, if the lower balls fall first the sphere in the container would go to the right instead of left! We used \textbf{logic and trial and error method}(lab03) for solving this.
+\item We \textbf{got the timings right} by setting the densities, friction etc. of various elements in the simulation(\textbf{trial and error technique} learnt in lab03). Also, getting the timing right especially \textbf{for the loader element}. For example, if the lower balls fall first the sphere in the container would go to the right instead of left! We used \textbf{logic and trial and error method}(lab03) for solving this.
 \item To \textbf{make the saw cut the thread} and to \textbf{make the switch} we needed to learn about \textbf{Contact Listeners} \cite{contact_listener} 
 \item To make the car element \cite{test_bed} of appropriate dimension and weight, it took a while. The car won't become stable! It would jump on and on and disrupt the simulation!
-\item We used concepts learnt in Lab02 to make the WebPage! 
-\item We used concepts learnt in Lab05 to make the Makefile!
-\item We used Beamer and\textbf{\LaTeX} (as learnt in Lab06) to create the presentation and this report!
-\item We used the \textbf{gprof}\cite{gprof} feature(as learnt in Lab09) to profile the code, for performance report and improvisation-making code efficient(as learnt in Lab09).
-\item Due to pausity of time we were unable to finish the explosion element.
+\item We used concepts learnt in \textbf{Lab02} to make the \textbf{WebPage}! 
+\item We used concepts learnt in \textbf{Lab05} to make the \textbf{Makefile}!
+\item We used \textbf{Beamer} and\textbf{\LaTeX} (as learnt in \textbf{Lab06}) to create the presentation and this report!
+\item We used the \textbf{gprof}\cite{gprof} feature(as learnt in \textbf{Lab09}) to profile the code, for performance report and improvisation-making code efficient(as learnt in Lab09).
+\item Due to pausity of time we were unable to finish the explosion element. However we have added an additional feature \cite{test_bed} where the user can move things around by \textbf{dragging and dropping with mouse!}
+\item We also have tried to improve \textbf{graphics }\cite{openGL}  by making changes in the render.cpp file.
 \end{list}
 \pagebreak
 \section*{\huge 3. SPECIFIC REQUIREMENTS}
@@ -417,7 +419,7 @@ Analysis of the project is done using 'gprof' \cite{gprof} functionality.
 \begin{list}{$\cdot$}{}
 \item In the original(supplied) base code \emph{b2ContactSolver::SolveVelocityConstraints(), b2World::Solve(), b2World::DrawShape() } take maximum time\textbf{(18.75\%)} followed by \emph{b2ContactManager::Collide()} which takes \textbf{12.5\%} of time. This is because the base code has only simple elements which collide, roll on etc. to complete the chain of events.
 \item For this project, operator*() takes maximum time(\textbf{11.13\%}), followed by \emph{operator-()} which takes(\textbf{9.4\%}), followed by \emph{b2ContactSolver::SolveVelocity()} which takes \textbf{7.42\%.} \emph{b2Vec2::b2Vec2()} takes \textbf{6.89\%} and \emph{b2Mul()} takes \textbf{5.43\%.}
-\item This is because we have created Contact listeners which reqires b2ContactSolver.We have created and maintained b2MouseJoint object which require operators on b2Vec2, whose percentage time has increased dramatically! 
+\item This is because we have created Contact listeners which reqires b2ContactSolver. Also more number of elements lead to more contacts, collisions which reqire b2ContactSolver. We have created and maintained b2MouseJoint object which require operators on b2Vec2, whose percentage time has increased dramatically! 
 \item 
 \end{list}
 \end{figure}
