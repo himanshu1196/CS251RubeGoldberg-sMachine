@@ -113,6 +113,8 @@ profile:
 	@./bin/cs251_base
 	@gprof ./bin/cs251_base gmon.out > flatprofile.txt
 	@gprof ./bin/cs251_base gmon.out -P -b > callgraph.txt
+	@python gprof2dot.py callgraph.txt> callgraph.dot
+	@dot callgraph.dot -Tpng > callgraph.png
 
 clean:
 	@$(ECHO) -n "Cleaning up..."
