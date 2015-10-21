@@ -121,3 +121,4 @@ clean:
 
 distclean: clean
 	@$(RM) -rf $(BINDIR) $(DOCDIR)/html $(DOCDIR)/*.aux $(DOCDIR)/*.bbl $(DOCDIR)/*.blg $(DOCDIR)/*.log $(DOCDIR)/*.out $(DOCDIR)/*.pdf $(DOCDIR)/*.nav $(DOCDIR)/*.toc $(DOCDIR)/*.snm callgraph.txt flatprofile.txt gmon.out
+
